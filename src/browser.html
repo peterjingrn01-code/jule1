@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JULE1 Browser</title>
+<style>
+:root{--line:#d9dde5;--panel:#f6f7f9;--text:#202124;--blue:#1769e0}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;font-family:Arial,Helvetica,sans-serif;color:var(--text);overflow:hidden}
+body{display:grid;grid-template-rows:48px 1fr;background:#fff}
+.toolbar{display:grid;grid-template-columns:auto auto auto auto 1fr auto;gap:7px;align-items:center;padding:6px 10px;border-bottom:1px solid var(--line);background:var(--panel)}
+button{height:34px;min-width:38px;border:1px solid var(--line);border-radius:9px;background:#fff;font-size:17px;cursor:pointer}button:hover{background:#eef2f8}button:disabled{opacity:.38;cursor:default}
+.address{height:34px;width:100%;border:1px solid var(--line);border-radius:17px;background:#fff;padding:0 15px;font-size:14px;outline:none}.address:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(23,105,224,.13)}
+.go{padding:0 16px;font-size:14px;font-weight:700;color:#fff;background:var(--blue);border-color:var(--blue)}.go:hover{background:#0f58c5}
+webview{width:100%;height:100%;display:flex;background:#fff}
+@media(max-width:760px){.toolbar{grid-template-columns:auto auto auto auto 1fr}.go{display:none}}
+</style>
+</head>
+<body>
+<header class="toolbar">
+<button id="back" title="Back" aria-label="Back">←</button>
+<button id="forward" title="Forward" aria-label="Forward">→</button>
+<button id="reload" title="Reload" aria-label="Reload">↻</button>
+<button id="home" title="JULE Home" aria-label="JULE Home">Ω</button>
+<input id="address" class="address" type="text" inputmode="url" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Enter URL or search">
+<button id="go" class="go">Open</button>
+</header>
+<webview id="view" src="home.html" partition="persist:jule1" allowpopups></webview>
+<script>
+(() => {
+  const view = document.getElementById('view');
+  const address = document.getElementById('address');
+  const back = document.getElementById('back');
+  const forward = document.getElementById('forward');
+  const reload = document.getElementById('reload');
+  const home = document.getElementById('home');
+  const go = document.getElementById('go');
+
+  function normalize(raw) {
+    const value = raw.trim();
+    if (!value) return null;
+    if (/^(https?|file):\/\//i.test(value)) return value;
+    if (/^(localhost|127(?:\.\d{1,3}){3})(?::\d+)?(?:\/.*)?$/i.test(value)) return 'http://' + value;
+    if (/^(?:[a-z0-9-]+\.)+[a-z]{2,63}(?::\d+)?(?:\/.*)?$/i.test(value)) return 'https://' + value;
+    return 'https://discovery.jsl-ian.com/?q=' + encodeURIComponent(value);
+  }
+  function open(raw) {
+    const url = normalize(raw);
+    if (url) view.loadURL(url);
+  }
+  function sync(url) {
+    address.value = url.startsWith('file:') ? 'JULE Home' : url;
+    back.disabled = !view.canGoBack();
+    forward.disabled = !view.canGoForward();
+  }
+
+  go.addEventListener('click', () => open(address.value));
+  address.addEventListener('keydown', e => { if (e.key === 'Enter') open(address.value); });
+  back.addEventListener('click', () => { if (view.canGoBack()) view.goBack(); });
+  forward.addEventListener('click', () => { if (view.canGoForward()) view.goForward(); });
+  reload.addEventListener('click', () => view.reload());
+  home.addEventListener('click', () => view.loadURL(new URL('home.html', location.href).href));
+
+  view.addEventListener('did-navigate', e => sync(e.url));
+  view.addEventListener('did-navigate-in-page', e => sync(e.url));
+  view.addEventListener('dom-ready', () => sync(view.getURL()));
+  view.addEventListener('new-window', e => { e.preventDefault(); open(e.url); });
+
+  if (window.juleDesktop) window.juleDesktop.onOpenUrl(open);
+})();
+</script>
+</body>
+</html>
