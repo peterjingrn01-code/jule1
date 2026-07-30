@@ -1,9 +1,9 @@
 {
-  "name": ""jule1-desktop-universal-browser"",
+  "name": "jule1-desktop-universal-browser",
   "version": "1.0.0",
   "description": "JULE1 Desktop Universal Browser by JSL-ian Technologies Ltd.",
   "main": "main.js",
-  "author": ""JSL-ian Technologies Ltd. <contact@jsl-ian.com>".",
+  "author": "JSL-ian Technologies Ltd. <contact@jsl-ian.com>",
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
