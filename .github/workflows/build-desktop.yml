@@ -1,48 +1,45 @@
 name: Build JULE1 Desktop Universal Browser
 
 on:
-  workflow_dispatch:
   push:
-    branches: [ main ]
-
-permissions:
-  contents: read
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   build:
+    name: Build ${{ matrix.name }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - os: windows-latest
-            label: Windows
-          - os: macos-latest
-            label: macOS
-          - os: ubuntu-latest
-            label: Linux
+          - name: Windows
+            os: windows-latest
+          - name: macOS
+            os: macos-latest
+          - name: Linux
+            os: ubuntu-latest
+
     runs-on: ${{ matrix.os }}
-    name: Build ${{ matrix.label }}
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: npm
+          node-version: "22"
+
       - name: Install dependencies
         run: npm install
+
       - name: Build packages
         run: npm run dist
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Upload installers
         uses: actions/upload-artifact@v4
         with:
-          name: JULE1-Browser-${{ matrix.label }}
-          path: |
-            release/*.exe
-            release/*.dmg
-            release/*.zip
-            release/*.AppImage
-            release/*.deb
+          name: JULE1-Browser-${{ matrix.name }}
+          path: release/**
           if-no-files-found: error
-          retention-days: 30
