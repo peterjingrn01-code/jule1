@@ -46,7 +46,7 @@
       "artifactName": "JULE1-Browser-macOS-${version}-${arch}.${ext}"
     },
     "linux": {
-      "target": ["AppImage", "deb"],
+      "target": ["AppImage",],
       "category": "Network",
       "artifactName": "JULE1-Browser-Linux-${version}-${arch}.${ext}"
     }
