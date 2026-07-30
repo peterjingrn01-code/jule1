@@ -1,0 +1,15 @@
+JULE1 DESKTOP UNIVERSAL BROWSER — UPLOAD
+
+1. Open the JULE1 GitHub repository.
+2. Upload ALL contents of this package to the repository root.
+3. Keep the folder structure exactly as supplied, especially:
+   .github/workflows/build-desktop.yml
+   src/browser.html
+   src/home.html
+4. Commit to the main branch.
+5. Open GitHub Actions.
+6. Select “Build JULE1 Desktop Universal Browser”.
+7. Click “Run workflow”.
+8. After completion, download Windows, macOS, or Linux artifact.
+
+This package is desktop only. It does not change the completed Android browser.
