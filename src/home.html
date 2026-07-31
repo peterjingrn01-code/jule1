@@ -476,13 +476,16 @@ dialog::backdrop{background:rgba(0,0,0,.35)}
     <nav class="product-grid" aria-label="JULE Products">
       <button class="product" type="button" data-product="#normalizer"><span class="omega-tag">Ω0</span><span class="icon">🌐</span><strong>Browser<br>Normalizer</strong></button>
       <button class="product" type="button" data-product="https://omega.jsl-ian.com"><span class="omega-tag">Ω1</span><span class="icon">💬</span><strong>JULE<br>Chat</strong></button>
-      <button class="product" type="button" data-product="https://jule.jsl-ian.com"><span class="omega-tag">Ω2</span><span class="icon">🛒</span><strong>JULE<br>Store</strong></button>
+      <button class="product" type="button" data-product="https://store.jsl-ian.com"><span class="omega-tag">Ω2</span><span class="icon">🛒</span><strong>JULE<br>Store</strong></button>
       <button class="product" type="button" data-product="https://discovery.jsl-ian.com"><span class="omega-tag">Ω3</span><span class="icon">⌕</span><strong>Discovery<br>Engine</strong></button>
       <button class="product" type="button" data-product="https://omega1.jsl-ian.com"><span class="omega-tag">Ω4</span><span class="icon">🛡</span><strong>Omega<br>Crypto</strong></button>
       <button class="product" type="button" data-product="https://app.jsl-ian.com"><span class="omega-tag">Ω5</span><span class="icon">⌘</span><strong>JSL<br>Runtime</strong></button>
       <button class="product" type="button" data-product="https://connector.jsl-ian.com"><span class="omega-tag">Ω6</span><span class="icon">🔗</span><strong>JULE<br>Connector</strong></button>
       <button class="product" type="button" data-product="https://ziran.jsl-ian.com"><span class="omega-tag">Ω7</span><span class="icon">♥</span><strong>JULE<br>Health</strong></button>
-      <button class="product" type="button" data-product="about"><span class="omega-tag">Ω8</span><span class="icon">•••</span><strong>More...</strong></button>
+      <button class="product" type="button" data-product="https://store.jsl-ian.com"><span class="omega-tag">Ω8</span><span class="icon">📚</span><strong>JSL-ian<br>Company Docs</strong></button>
+      <button class="product" type="button" data-product="future" data-future-name="JSL-ian Synapses"><span class="omega-tag">Ω9</span><span class="icon">🧠</span><strong>JSL-ian<br>Synapses</strong></button>
+      <button class="product" type="button" data-product="future" data-future-name="JULE-Chips"><span class="omega-tag">Ω10</span><span class="icon">▦</span><strong>JULE<br>Chips</strong></button>
+      <button class="product" type="button" data-product="about"><span class="omega-tag">Ω11</span><span class="icon">•••</span><strong>More...</strong></button>
     </nav>
   </section>
 
@@ -644,6 +647,11 @@ dialog::backdrop{background:rgba(0,0,0,.35)}
 
       if (target === 'about') {
         about.showModal();
+        return;
+      }
+
+      if (target === 'future') {
+        message.textContent = (button.dataset.futureName || 'This JULE product') + ' — coming soon.';
         return;
       }
 
